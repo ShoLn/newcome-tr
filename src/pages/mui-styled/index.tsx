@@ -101,7 +101,12 @@ const MuiStyledPage = () => {
   );
 };
 
-const Field = ({ id, text, placeholder }) => {
+type TypeFieldProp = {
+  id:string,
+  text:string,
+  placeholder:string
+}
+const Field = ({ id, text, placeholder }:TypeFieldProp) => {
   return (
     // <Box className="field">
     //   <InputLabel htmlFor={id}>
@@ -117,7 +122,7 @@ const Field = ({ id, text, placeholder }) => {
     //   />
     // </Box>
     <Box className="field">
-      <Typography htmlFor={id} variant="h2">
+      <Typography id={id} variant="h2">
         {text}&nbsp;
         <span className="required">*</span>
       </Typography>
