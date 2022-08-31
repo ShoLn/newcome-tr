@@ -15,7 +15,6 @@ export type LoginDto = {
 // Hook
 const login = async (body: Body): Promise<SuccessType<LoginDto>> => {
   const res = await axios.post('/auth/login', body)
-
   return res.data
 }
 

@@ -101,11 +101,13 @@ const MuiStyledPage = () => {
   );
 };
 
+// Type
 type TypeFieldProp = {
   id:string,
   text:string,
   placeholder:string
 }
+
 const Field = ({ id, text, placeholder }:TypeFieldProp) => {
   return (
     // <Box className="field">
