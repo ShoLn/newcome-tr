@@ -1,6 +1,7 @@
 import { useToken } from '../../hooks/useToken'
 import { useHistory } from '../../hooks/useHistory'
 import Box from '@mui/material/Box'
+import { Typography } from '@mui/material'
 
 
 export const loginBody = {
@@ -12,15 +13,21 @@ export const loginBody = {
 
 const ReactQueryPage = () => {
   const token = useToken(loginBody)
-  console.log(token)
-
+  console.log("token" ,token);
   const { data, isLoading } = useHistory({ limit: 15 }, token)
-  console.log(data)
-
   return (
     <Box sx={{ pt: '2rem' }}>
       ReactQueryPage
-      {!isLoading && JSON.stringify(data)}
+      {isLoading ? <Typography>Loading....</Typography>: (
+        <>
+         <Typography>
+           Counts: {data?.counts}
+         </Typography>
+         <Typography>
+           data: {JSON.stringify(data?.data)}
+         </Typography>
+        </>
+      )}
     </Box>
   )
 }

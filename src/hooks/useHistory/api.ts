@@ -14,6 +14,8 @@ export const historyFetcher: HistoryFetcherType = async (context) => {
       limit: 10,
       alive: 0,
       powerOff: 1,
+      start: new Date('2022-08-01').getTime(),
+      end: new Date('2022-08-20').getTime(),
       // 再與傳入的 params merge
       ...params,
     },

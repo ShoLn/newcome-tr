@@ -1,7 +1,7 @@
-import { useMemo } from 'react'
-import { useTable } from 'react-table'
+import { useMemo } from "react";
+import { useTable } from "react-table";
 
-import Box from '@mui/material/Box'
+import Box from "@mui/material/Box";
 /*
   React Table 簡介：
   以 hook 的形式，幫我們產生表格的所有格子，它藉由管理每個格子元件的 value 與 props，並以此來幫我做到表格的 搜尋、排序、分組、分頁 等功能。學習起來相對困難一點，需多花一點時間適應。
@@ -22,11 +22,71 @@ import Box from '@mui/material/Box'
 // 請跟著上面官方範例連結 跟著做出最簡單的表格
 
 const TableBasicPage = () => {
-  return (
-    <Box sx={{ pt: '2rem' }}>
-      Basic Table
-    </Box>
-  )
-}
+  const data = useMemo(
+    () => [
+      {
+        col1: "Hello",
+        col2: "World",
+      },
+      {
+        col1: "react-table",
+        col2: "rocks",
+      },
+      {
+        col1: "whatever",
+        col2: "you want",
+      },
+    ],
+    []
+  );
 
-export default TableBasicPage
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Column 1",
+        accessor: "col1", // accessor is the "key" in the data
+      },
+      {
+        Header: "Column 2",
+        accessor: "col2",
+      },
+    ],
+    []
+  );
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
+
+  return (
+    <Box sx={{ pt: "2rem" }}>
+      Basic Table // apply the table props
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </Box>
+  );
+};
+
+export default TableBasicPage;
