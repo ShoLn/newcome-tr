@@ -21,7 +21,7 @@ const StyledWrapper = styled("div")(({ theme }) => ({
     
     th: {
       textAlign: "left",
-      fontSize:theme.typography.pxToRem(24),
+      fontSize:"1.2rem",
       border: "1px solid #ddd",
       padding: theme.spacing(2),
       backgroundColor: "#04AA6D",
