@@ -11,8 +11,11 @@ const Navbar = () => {
     <Box
       sx={{
         position: 'fixed',
+        top:0,
         zIndex: 10,
-        bgcolor: 'transparent',
+        bgcolor: 'white',
+        width: "100vw",
+        textAlign: "center"
       }}
     >
       <Link to="/">Home</Link> |&nbsp;
@@ -30,7 +33,7 @@ function App() {
   return (
     <QueryProvider>
       <ThemeProvider>
-        <div className="App">
+        <div className="App" style={{display: "flex", flexDirection:"column", alignItems:"center"}}>
           <Navbar />
           <Routes />
         </div>

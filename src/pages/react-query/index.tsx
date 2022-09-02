@@ -15,10 +15,12 @@ const ReactQueryPage = () => {
   const token = useToken(loginBody)
   console.log("token" ,token);
   const { data, isLoading } = useHistory({ limit: 15 }, token)
+
+
   return (
     <Box sx={{ pt: '2rem' }}>
       ReactQueryPage
-      {isLoading ? <Typography>Loading....</Typography>: (
+      {!data ? <Typography>Loading....</Typography>: (
         <>
          <Typography>
            Counts: {data?.counts}
