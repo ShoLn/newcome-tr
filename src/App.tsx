@@ -24,6 +24,7 @@ const Navbar = () => {
       <Link to="react-query">React Query</Link> |&nbsp;
       <Link to="table-basic">Table Basic</Link> |&nbsp;
       <Link to="table-fetch">Table Fetch</Link> |&nbsp;
+      <Link to="react-formik">React Formik</Link> |&nbsp;
     </Box>
   )
 }

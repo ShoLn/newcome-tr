@@ -9,6 +9,7 @@ const MuiSX = lazy(() => import('./pages/mui-sx'))
 const ReactQuery = lazy(() => import('./pages/react-query'))
 const TableBasic = lazy(() => import('./pages/react-table/basic'))
 const TableFetch = lazy(() => import('./pages/react-table/fetch'))
+const ReactFormik = lazy(() => import('./pages/react-formik'))
 
 const SuspenseWrapper = ({
   component: Component,
@@ -43,6 +44,10 @@ const Routing = () => {
       <Route
         path="/table-fetch"
         element={<SuspenseWrapper component={TableFetch} />}
+      />
+      <Route
+        path="/react-formik"
+        element={<SuspenseWrapper component={ReactFormik} />}
       />
     </Routes>
   )
