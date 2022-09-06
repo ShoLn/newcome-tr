@@ -129,7 +129,7 @@ const TableFetchPage = () => {
       <div style={{ fontSize: "30px", fontWeight: "700" }}>
         Fetched Data table
       </div>
-      {data && (
+      {data ? (
         <>
           <div className="global-search">
             <CssTextField
@@ -182,6 +182,10 @@ const TableFetchPage = () => {
             </tbody>
           </table>
         </>
+      ): (
+        <div>
+          Loading.......
+        </div>
       )}
     </StyledWrapper>
   );
