@@ -4,7 +4,7 @@ import { useToken } from "../../hooks/useToken";
 import { useHistory } from "../../hooks/useHistory";
 import { loginBody } from "../react-query";
 
-import { styled, TextField } from "@mui/material";
+import { styled, TextField, Typography } from "@mui/material";
 import KeyboardDoubleArrowUpRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowUpRounded";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import SortRoundedIcon from "@mui/icons-material/SortRounded";
@@ -56,23 +56,23 @@ const StyledWrapper = styled("div")(({ theme }) => ({
 }));
 
 const CssTextField = styled(TextField)({
-  ".MuiInputLabel-root":{
-    color:"#04AA6D",
+  ".MuiInputLabel-root": {
+    color: "#04AA6D",
   },
-  ".MuiOutlinedInput-root":{
-    color:"#04AA6D",
-    
-    fieldset:{
+  ".MuiOutlinedInput-root": {
+    color: "#04AA6D",
+
+    fieldset: {
       borderColor: "red",
-    }
-  }
+    },
+  },
 });
 
 // 請用由 useHistory 串接來的資料，做出有每筆資料 id、device.category、device.roomName 這三直行的表格
 // 共一頁 15 筆資料就好，不規定樣式
 const TableFetchPage = () => {
   const token = useToken(loginBody);
-  const { data, isLoading } = useHistory({ limit: 15 }, token);
+  const { data, isLoading, isError } = useHistory({ limit: 15 }, token);
 
   // table data
   const tableData = useMemo(
@@ -182,10 +182,9 @@ const TableFetchPage = () => {
             </tbody>
           </table>
         </>
-      ): (
-        <div>
-          Loading.......
-        </div>
+      ) : (
+        isLoading? (<div>Loading.......</div>)
+        : (<div>Error!</div>)
       )}
     </StyledWrapper>
   );

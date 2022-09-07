@@ -1,29 +1,40 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
+import {useState} from 'react'
+import { Paper, Typography, Avatar, Button } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-mui";
 import * as Yup from "yup";
 
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import SimCardDownloadIcon from "@mui/icons-material/SimCardDownload";
 // Formik Component 方法
 // 表單初始值
 const initialValues = {
   email: "",
   password: "",
+  confirmPassword: "",
   userInfo: {
     name: "",
     phone: "",
   },
 };
 
+// 讀取的註冊資料
+const formValues = {
+  email: "test@gmail.com",
+  password: "123123",
+  confirmPassword: "123123",
+  userInfo: {
+    name: "test",
+    phone: "0912345678",
+  },
+}
+
 // 提交表單
-const onSubmit = (values) => {
+const onSubmit = (values, onSubmitProps) => {
   console.log(values);
+  console.log(onSubmitProps);
+  onSubmitProps.resetForm(initialValues);
+  onSubmitProps.setSubmitting(false);
 };
 
 // yup schema 驗證
@@ -34,6 +45,10 @@ const validationSchemaSignin = Yup.object({
   password: Yup.string()
     .required("Password is required !!")
     .min(6, "password must greater or equal to 6 words !!"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
   userInfo: Yup.object({
     name: Yup.string().required("Name is required !!"),
     phone: Yup.string()
@@ -42,7 +57,9 @@ const validationSchemaSignin = Yup.object({
   }),
 });
 
+
 function ReactFormikPage() {
+  const [loadUserInfo, setLoadUserInfo] = useState(null)
   return (
     <Paper
       sx={{
@@ -63,56 +80,74 @@ function ReactFormikPage() {
 
       {/* Formik Component */}
       <Formik
-        initialValues={initialValues}
+        initialValues={loadUserInfo || initialValues}
         validationSchema={validationSchemaSignin}
         onSubmit={onSubmit}
+        enableReinitialize
       >
-        <Form>
-          <Field
-            component={TextField}
-            sx={{ mt: 3, mb: 3 }}
-            fullWidth
-            name="email"
-            type="email"
-            label="Email"
-          />
-          <Field
-            component={TextField}
-            sx={{ mt: 3, mb: 3 }}
-            fullWidth
-            name="password"
-            type="password"
-            label="Password"
-          />
-          <Field
-            component={TextField}
-            sx={{ mt: 3, mb: 3 }}
-            fullWidth
-            name="userInfo.name"
-            type="text"
-            label="Name"
-          />
-          <Field
-            component={TextField}
-            sx={{ mt: 3, mb: 3 }}
-            fullWidth
-            name="userInfo.phone"
-            type="text"
-            label="Phone"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign up
-          </Button>
-        </Form>
+        {(formik) => {
+          return (
+            <Form>
+              <Field
+                component={TextField}
+                sx={{ mt: 3, mb: 3 }}
+                fullWidth
+                size="small"
+                name="email"
+                type="email"
+                label="Email"
+              />
+              <Field
+                size="small"
+                component={TextField}
+                sx={{ mt: 3, mb: 3 }}
+                fullWidth
+                name="password"
+                type="password"
+                label="Password"
+              />
+              <Field
+                size="small"
+                component={TextField}
+                sx={{ mt: 3, mb: 3 }}
+                fullWidth
+                name="confirmPassword"
+                type="password"
+                label="Confirm Password"
+              />
+              <Field
+                size="small"
+                component={TextField}
+                sx={{ mt: 3, mb: 3 }}
+                fullWidth
+                name="userInfo.name"
+                type="text"
+                label="Name"
+              />
+              <Field
+                size="small"
+                component={TextField}
+                sx={{ mt: 3, mb: 3 }}
+                fullWidth
+                name="userInfo.phone"
+                type="text"
+                label="Phone"
+              />
+              <Button variant="outlined" startIcon={<SimCardDownloadIcon />} onClick={()=>{setLoadUserInfo(formValues)}}>
+                Load Data 
+              </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={formik.isSubmitting}
+              >
+                Sign up
+              </Button>
+            </Form>
+          );
+        }}
       </Formik>
     </Paper>
   );

@@ -13,7 +13,6 @@ export const loginBody = {
 
 const ReactQueryPage = () => {
   const token = useToken(loginBody)
-  console.log("token" ,token);
   const { data, isLoading } = useHistory({ limit: 15 }, token)
 
 
