@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useSortBy, useTable, useGlobalFilter } from "react-table";
+import { useSortBy, useTable, useGlobalFilter,TableOptions, Column } from "react-table";
 import { useToken } from "../../hooks/useToken";
 import { useHistory } from "../../hooks/useHistory";
 import { loginBody } from "../react-query";
@@ -74,8 +74,9 @@ const TableFetchPage = () => {
   const token = useToken(loginBody);
   const { data, isLoading, isError } = useHistory({ limit: 15 }, token);
 
+  type Cols = {id:string, deviceCategory:string | null, deviceRoomName:string | null}
   // table data
-  const tableData = useMemo(
+  const tableData:Cols[] = useMemo(
     () =>
       !data
         ? []
@@ -88,7 +89,7 @@ const TableFetchPage = () => {
   );
 
   // table columns
-  const tableColumns = useMemo(
+  const tableColumns: Column<Cols>[] = useMemo(
     () => [
       {
         Header: "id",
@@ -106,6 +107,7 @@ const TableFetchPage = () => {
     []
   );
 
+  const option:TableOptions<Cols> = { data: tableData, columns: tableColumns }
   // useTable
   const {
     getTableProps,
@@ -116,7 +118,7 @@ const TableFetchPage = () => {
     state,
     setGlobalFilter,
   } = useTable(
-    { data: tableData, columns: tableColumns },
+    option,
     useGlobalFilter,
     useSortBy
   );
@@ -183,8 +185,8 @@ const TableFetchPage = () => {
           </table>
         </>
       ) : (
-        isLoading? (<div>Loading.......</div>)
-        : (<div>Error!</div>)
+        !isError? (<div>Loading.......</div>)
+        : (<Typography color="error">Error!</Typography>)
       )}
     </StyledWrapper>
   );
